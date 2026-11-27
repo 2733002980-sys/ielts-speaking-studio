@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按题库选题、整理答案和脱稿复练的雅思口语工作台。">
+<title>雅思口语练习台</title><style>:root{color-scheme:light;--bg:#f4f4fb;--ink:#201c35;--muted:#625d76;--line:#e6e2f0;--accent:#5a40b6;--soft:#eee9fc;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,"Microsoft YaHei",sans-serif}button,input,select,textarea{font:inherit;color:inherit}button,input,select,textarea{border:1px solid var(--line);border-radius:11px;background:white;padding:.55rem .8rem}button{cursor:pointer;font-size:.88rem;font-weight:650}button:hover{border-color:var(--accent);color:var(--accent)}:focus-visible{outline:3px solid #a487fa;outline-offset:2px}button:disabled{opacity:.5;cursor:default}input,select,textarea{width:100%;min-width:0}textarea{resize:vertical}h1,h2,h3,p{margin:0}h2{font-size:1.05rem}h3{font-size:.95rem}header{background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem clamp(1rem,4vw,3.5rem)}.brand{display:flex;align-items:center;gap:.8rem}.brand strong{font-size:1.06rem}.brand small{display:block;letter-spacing:.12em;color:var(--muted);font-size:.7rem}.mark{display:grid;place-items:center;background:var(--accent);color:white;width:42px;height:42px;border-radius:13px;font-weight:bold}#save-status,.muted,#source{color:var(--muted);font-size:.88rem}.layout{max-width:1440px;margin:auto;padding:1.65rem clamp(.8rem,3.5vw,3rem);display:grid;grid-template-columns:290px minmax(0,1fr);gap:1.35rem}aside,.card{background:var(--white);border:1px solid var(--line);border-radius:18px}aside{padding:1rem;align-self:start;display:grid;gap:.7rem}.side-title,.row,.hero-top,.hero-bottom{display:flex;align-items:center;justify-content:space-between;gap:.6rem}.side-title span{color:var(--muted);font-size:.84rem}#parts,.tabs{display:flex;gap:.35rem}#parts button{flex:1;padding:.35rem .25rem}button[aria-pressed=true]{background:var(--soft);color:#4a319f;border-color:#d7caf7}#questions{display:grid;align-content:start;gap:.3rem;max-height:52vh;overflow:auto;padding:3px}#questions button{text-align:left;font-weight:500;line-height:1.4;overflow-wrap:anywhere}.add{color:var(--accent);border-style:dashed}.hero{background:radial-gradient(ellipse at top right,#6648a4 0,transparent 56%),#2e204d;color:#fff;border-radius:20px;padding:1.25rem clamp(1rem,3vw,2rem);overflow-wrap:anywhere}.hero h1{font-size:clamp(1.55rem,3vw,2.38rem);line-height:1.2;margin:1rem 0 1.2rem;max-width:30ch;letter-spacing:-.022em}.hero ul{padding-left:1.15rem;color:#f1e9ff}.hero ul:empty{display:none}#meta,#source{color:#e6d9fa;font-size:.82rem}.listen{background:#ffffff14;border-color:#ffffff53;color:white;flex-shrink:0}.listen:hover{background:white}.workspace{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:1.15rem;margin-top:1.15rem;align-items:start}.tabs{padding:.7rem;border-bottom:1px solid var(--line);flex-wrap:wrap}.tabs button{border-color:transparent}.pad{padding:1.15rem}.pad p,.pad textarea,.pad .timer{margin:.55rem 0 .9rem}#answer{font-size:1.04rem;line-height:1.75;white-space:pre-line}.primary{background:var(--accent);color:white;border-color:var(--accent)}.primary:hover{background:#4b329e;color:white}.phrase{padding:.7rem 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.phrase strong{color:#513399}.phrase small,.phrase em{display:block}.phrase em{font-size:.9rem;color:var(--muted)}.coach{margin-top:1rem;background:#f8f6fe;border-radius:12px;padding:.8rem}.timer{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}output{font-size:1.7rem;font-variant-numeric:tabular-nums;margin-right:.4rem}dialog{width:min(570px,calc(100% - 2rem));border:1px solid var(--line);border-radius:18px;padding:1.25rem;color:var(--ink)}dialog::backdrop{background:#221a3a99}dialog form{display:grid;gap:.55rem}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}[hidden]{display:none!important}@media(max-width:900px){.workspace{grid-template-columns:1fr}}@media(max-width:650px){.layout{grid-template-columns:1fr;padding-top:.85rem}#questions{max-height:185px}header #save-status{text-align:right;font-size:.75rem}}
+</style>
+
+</head>
+<body>
+<header><div class="brand"><span class="mark" aria-hidden="true">◖Ⅲ◗</span><div><strong>口语练习台</strong><small>IELTS SPEAKING STUDIO</small></div></div><span id="save-status" role="status">练习记录保存在此浏览器</span></header>
+<div class="layout">
+<aside aria-label="选题">
+<div class="side-title"><h2>题库</h2><span id="count"></span></div>
+<nav id="parts" aria-label="题型"></nav>
+<input id="search" type="search" placeholder="搜索话题或题目" aria-label="搜索话题或题目">
+<select id="topic" aria-label="选择话题"></select>
+<div id="questions"></div>
+<button id="add" class="add">＋ 添加自拟题或导入文件</button>
+</aside>
+<main>
+<section class="hero">
+<div class="hero-top"><span id="meta"></span><button id="listen" class="listen">朗读题目</button></div>
+<h1 id="question" lang="en"></h1>
+<ul id="cue" lang="en"></ul>
+<div class="hero-bottom"><span id="source"></span><button id="next" class="listen">下一题</button></div>
+</section>
+<div class="workspace">
+<section class="card">
+<nav id="modes" class="tabs" aria-label="练习方式"></nav>
+<div class="pad" id="reference">
+<div class="row"><h2>参考回答</h2><button id="listen-answer">朗读回答</button></div>
+<p id="answer" lang="en"></p><p id="reference-note" class="muted"></p>
+<button id="use" class="primary">用作我的草稿</button>
+</div>
+<div class="pad" id="draft" hidden>
+<h2>我的回答</h2><p class="muted">可以先写中文要点，再整理成自己说得顺的英文。</p>
+<label for="draft-text" class="sr">我的回答</label><textarea id="draft-text" rows="7" placeholder="写下你的真实细节、英文草稿或定稿…"></textarea>
+<button id="polish" class="primary">复制润色请求</button>
+</div>
+<div class="pad" id="practice" hidden>
+<h2>脱稿复练</h2><label for="keywords">只看关键词，把答案说一遍</label><textarea id="keywords" rows="2" placeholder="写下 3–5 个英文关键词"></textarea>
+<div class="timer"><output id="time">00:00</output><button id="clock" class="primary">开始计时</button><button id="reset">重置</button></div>
+<button id="follow">显示追问</button><p id="follow-text" lang="en" hidden></p><button id="done">标记为已练</button>
+</div>
+</section>
+<section class="card pad phrases"><h2>备选搭配</h2><div id="phrases"></div>
+<div class="coach"><h3>用 ChatGPT 陪练</h3><p class="muted">复制请求后，粘贴到 ChatGPT。参考答案、搭配和润色可以继续在对话里完成，再把定稿贴回这里。</p><button id="coach">复制参考回答与搭配请求</button></div>
+</section>
+</div>
+</main></div>
+<dialog id="modal"><form id="import-form"><div class="row"><h2>添加练习题</h2><button type="button" id="close">关闭</button></div>
+<label for="new-part">题型</label><select id="new-part"><option value="1">Part 1</option><option value="2">Part 2</option><option value="3">Part 3</option></select>
+<label for="new-topic">话题</label><input id="new-topic" placeholder="例如 Teamwork">
+<label for="file">导入题目文件</label><input type="file" id="file" accept=".txt,.md,.pdf">
+<label for="new-questions">题目预览或手动输入</label><textarea id="new-questions" rows="6" placeholder="每行一道题。请先核对导入结果，再选择题型和保存。"></textarea>
+<p id="import-status" class="muted" role="status">支持 TXT、Markdown 和可选中文字的 PDF。</p><button class="primary" id="import-button">加入题库</button></form></dialog>
+<dialog id="copy-modal"><div class="row"><h2>复制练习请求</h2><button id="copy-close">关闭</button></div><textarea id="copy-text" rows="8" aria-label="练习请求"></textarea></dialog>
+<script>window.bank=[{"id": "1", "part": 1, "topic": "Study", "q": "What do you enjoy about studying?", "group": "示例题", "source": "通用练习", "n": 1}, {"id": "2", "part": 1, "topic": "Study", "q": "Where do you usually study?", "group": "示例题", "source": "通用练习", "n": 2}, {"id": "3", "part": 1, "topic": "Travel", "q": "What do you like to do on a long journey?", "group": "示例题", "source": "通用练习", "n": 1}, {"id": "4", "part": 2, "topic": "Teamwork", "q": "Describe a time you worked with other people.", "group": "示例题", "source": "通用练习", "n": 1, "cue": ["Who you worked with", "What you did together", "What you learned"]}, {"id": "5", "part": 3, "topic": "Teamwork", "q": "What helps a team work well together?", "group": "示例题", "source": "通用练习", "n": 1}];window.samples={"1": ["I like it when I can use what I learn outside class. For example, if I learn a new way to organise my notes, I try it on my next assignment. That makes studying feel more useful.", "outside class · notes · assignment", [["outside class", "课外", "I often practise outside class."], ["try it on …", "把它用在……上试试", "I tried it on my next assignment."], ["make something feel …", "让某件事感觉……", "It makes studying feel more manageable."]], "Do you prefer to study alone or with other people?"]};
+'use strict';
+const $ = id => document.getElementById(id);
+const storageKey = 'speaking-studio-v1';
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch {}
+const records = saved.records || {};
+const custom = saved.custom || [];
+const all = [...window.bank, ...custom];
+let current = all.find(item => item.id === saved.selected) || all[0];
+let part = current.part;
+let topic = key(current);
+let mode = 'reference';
+let start = 0;
+let elapsed = 0;
+let timer = null;
+
+function key(item) {
+  return JSON.stringify([item.group, item.topic]);
+}
+function record() {
+  return records[current.id] ||= {};
+}
+function save() {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify({records, custom, selected: current.id}));
+    $('save-status').textContent = '已保存到此浏览器';
+  } catch {
+    $('save-status').textContent = '浏览器无法保存，请复制你的草稿';
+  }
+}
+function element(tag, text) {
+  const node = document.createElement(tag);
+  node.textContent = text;
+  return node;
+}
+function button(label, pressed, action) {
+  const node = element('button', label);
+  node.setAttribute('aria-pressed', String(pressed));
+  node.onclick = action;
+  return node;
+}
+function filtered() {
+  const term = $('search').value.trim().toLowerCase();
+  return all.filter(item => item.part === part && (!term || [item.topic, item.q, item.group].some(value => value.toLowerCase().includes(term))));
+}
+function visible() {
+  return filtered().filter(item => !topic || key(item) === topic);
+}
+function renderBank() {
+  $('parts').replaceChildren(...[1, 2, 3].map(n => button('Part ' + n, part === n, () => {
+    part = n;
+    topic = '';
+    $('search').value = '';
+    select(visible()[0]);
+  })));
+  const groups = new Map(filtered().map(item => [key(item), item.group + ' · ' + item.topic]));
+  $('topic').replaceChildren(new Option('全部话题', ''), ...Array.from(groups, ([id, label]) => new Option(label, id)));
+  $('topic').value = topic;
+  const items = visible();
+  $('count').textContent = items.length + ' 题';
+  $('questions').replaceChildren(...items.map(item => button(
+    (records[item.id]?.done ? '✓ ' : '') + item.n + '. ' + item.q,
+    current.id === item.id,
+    () => select(item)
+  )));
+  if (!items.length) $('questions').append(element('p', '没有找到题目。'));
+  $('next').disabled = items.indexOf(current) < 0 || items.indexOf(current) === items.length - 1;
+}
+function renderMode() {
+  const modes = [['reference', '参考回答'], ['draft', '我的回答'], ['practice', '脱稿复练']];
+  $('modes').replaceChildren(...modes.map(([id, label]) => button(label, mode === id, () => {
+    mode = id;
+    renderMode();
+  })));
+  for (const [id] of modes) $(id).hidden = mode !== id;
+}
+function renderQuestion() {
+  const sample = window.samples[current.id];
+  $('meta').textContent = 'Part ' + current.part + '  /  ' + (current.part === 3 ? '延伸讨论' : current.part === 2 ? '个人陈述' : current.topic);
+  $('question').textContent = current.q;
+  $('source').textContent = current.source + ' · ' + current.group;
+  $('cue').replaceChildren(...(current.cue || []).map(line => element('li', line)));
+  $('answer').textContent = sample?.[0] || '';
+  $('reference-note').textContent = sample
+    ? (current.id === '3' ? '这个选专业的理由是示例，请按你的真实情况调整。' : '可以把其中的细节换成自己最想讲的。')
+    : '这道题可以用右侧的按钮复制请求，到 ChatGPT 获取个性化参考回答和备选搭配。';
+  $('listen-answer').hidden = !sample;
+  $('use').hidden = !sample;
+  $('draft-text').value = record().draft || '';
+  $('keywords').value = record().keywords ?? sample?.[1] ?? '';
+  const phrases = $('phrases');
+  phrases.replaceChildren();
+  for (const [phrase, meaning, example] of sample?.[2] || []) {
+    const row = element('div', '');
+    row.className = 'phrase';
+    row.append(element('strong', phrase), element('small', meaning), element('em', example));
+    phrases.append(row);
+  }
+  if (!sample) phrases.append(element('p', '练习请求会附上原题，并请 ChatGPT 给出三个顺口的搭配。'));
+  const linked = all.find(item => item.part === 3 && item.topic === current.topic && item.group === current.group);
+  const follow = sample?.[3] || (current.part === 2 && linked ? linked.q : 'Could you give me a specific example?');
+  $('follow-text').textContent = follow;
+  $('follow-text').hidden = true;
+  $('follow').textContent = '显示追问';
+  $('done').textContent = record().done ? '✓ 已练 · 取消标记' : '标记为已练';
+}
+function select(item) {
+  if (item && item !== current) {
+    current = item;
+    resetTimer();
+    window.speechSynthesis?.cancel();
+    renderQuestion();
+    save();
+  }
+  renderBank();
+}
+function speak(message) {
+  if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(message);
+  utterance.lang = 'en-GB';
+  utterance.rate = 0.9;
+  window.speechSynthesis.speak(utterance);
+}
+async function copy(mode) {
+  const context = '我正在准备雅思口语。请用短句、自然的词和具体细节，适当使用容易说顺的从句。没有确认的个人经历请标为示例。';
+  const task = mode === 'polish'
+    ? '请按雅思口语润色下面的草稿，保留我的意思，简述一两处改动，再给复述关键词和一道追问。\n我的草稿：' + $('draft-text').value
+    : '请给一版适合该 Part 的英文口语参考回答、三个备选搭配（中文意思和短例句）、复述关键词和一道追问。';
+  const prompt = [context, 'Part ' + current.part + ' · ' + current.q, ...(current.cue || []), task].join('\n');
+  try {
+    await navigator.clipboard.writeText(prompt);
+    $('save-status').textContent = '已复制，粘贴到 ChatGPT 即可继续';
+  } catch {
+    $('copy-text').value = prompt;
+    $('copy-modal').showModal();
+    $('copy-text').select();
+  }
+}
+function updateTimer() {
+  const seconds = Math.floor((elapsed + (start ? performance.now() - start : 0)) / 1000);
+  $('time').value = [Math.floor(seconds / 60), seconds % 60].map(n => String(n).padStart(2, '0')).join(':');
+}
+function resetTimer() {
+  clearInterval(timer);
+  start = 0;
+  elapsed = 0;
+  $('clock').textContent = '开始计时';
+  updateTimer();
+}
+
+$('search').oninput = () => { topic = ''; select(visible()[0]); };
+$('topic').onchange = () => { topic = $('topic').value; select(visible()[0]); };
+$('next').onclick = () => { const items = visible(); select(items[items.indexOf(current) + 1]); };
+$('listen').onclick = () => speak([current.q, ...(current.cue || [])].join('. '));
+$('listen-answer').onclick = () => speak(window.samples[current.id]?.[0] || '');
+$('use').onclick = () => {
+  mode = 'draft';
+  renderMode();
+  const field = $('draft-text');
+  if (!field.value.trim()) {
+    field.value = window.samples[current.id][0];
+    record().draft = field.value;
+    save();
+  }
+  field.focus();
+};
+$('draft-text').oninput = event => { record().draft = event.target.value; save(); };
+$('keywords').oninput = event => { record().keywords = event.target.value; save(); };
+$('coach').onclick = () => copy('answer');
+$('polish').onclick = () => copy('polish');
+$('copy-close').onclick = () => $('copy-modal').close();
+$('clock').onclick = () => {
+  if (start) {
+    elapsed += performance.now() - start;
+    start = 0;
+    clearInterval(timer);
+    $('clock').textContent = '继续计时';
+  } else {
+    start = performance.now();
+    timer = setInterval(updateTimer, 160);
+    $('clock').textContent = '暂停计时';
+  }
+  updateTimer();
+};
+$('reset').onclick = resetTimer;
+$('follow').onclick = () => {
+  const follow = $('follow-text');
+  follow.hidden = !follow.hidden;
+  $('follow').textContent = follow.hidden ? '显示追问' : '隐藏追问';
+};
+$('done').onclick = () => {
+  record().done = !record().done;
+  $('done').textContent = record().done ? '✓ 已练 · 取消标记' : '标记为已练';
+  save();
+  renderBank();
+};
+$('add').onclick = () => $('modal').showModal();
+$('close').onclick = () => $('modal').close();
+
+const trimQuestion = line => line.trim().replace(/^(?:[●•*-]\s*)?(?:\d+[.、)]\s*)?/, '');
+async function extractPDF(file) {
+  const pdf = await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@5.6.205/legacy/build/pdf.min.mjs');
+  pdf.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@5.6.205/legacy/build/pdf.worker.min.mjs';
+  const doc = await pdf.getDocument({
+    data: new Uint8Array(await file.arrayBuffer()),
+    cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@5.6.205/cmaps/',
+    standardFontDataUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@5.6.205/standard_fonts/',
+    cMapPacked: true,
+    isEvalSupported: false
+  }).promise;
+  try {
+    const pages = [];
+    for (let n = 1; n <= doc.numPages; n++) {
+      const content = await (await doc.getPage(n)).getTextContent();
+      pages.push(content.items.map(item => (item.str || '') + (item.hasEOL ? '\n' : ' ')).join(''));
+    }
+    const extracted = pages.join('\n');
+    if (!extracted.trim()) throw new Error('PDF 没有可识别的文字');
+    const lines = extracted.split('\n').map(trimQuestion);
+    return lines.filter(line => /\?$|^Describe\b|^Talk about\b/i.test(line)).join('\n') || extracted.trim();
+  } finally {
+    await doc.destroy();
+  }
+}
+$('file').onchange = async () => {
+  const file = $('file').files[0];
+  if (!file) return;
+  $('file').disabled = $('import-button').disabled = true;
+  $('import-status').textContent = '正在读取题目…';
+  try {
+    const content = /\.pdf$/i.test(file.name) ? await extractPDF(file) : await file.text();
+    $('new-questions').value = content.split('\n').map(trimQuestion).filter(Boolean).join('\n');
+    $('new-topic').value ||= file.name.replace(/\.[^.]+$/, '');
+    $('import-status').textContent = '请核对预览。混合题型可分批加入；跨行题目请合并成一行。';
+  } catch {
+    $('import-status').textContent = '无法读取这个文件。可以复制其中的题目后粘贴到预览框。';
+  } finally {
+    $('file').disabled = $('import-button').disabled = false;
+    $('file').value = '';
+  }
+};
+$('import-form').onsubmit = event => {
+  event.preventDefault();
+  const lines = $('new-questions').value.split('\n').map(trimQuestion).filter(Boolean);
+  if (!lines.length) {
+    $('import-status').textContent = '请先输入至少一道题。';
+    return;
+  }
+  part = Number($('new-part').value);
+  const title = $('new-topic').value.trim() || '自拟练习';
+  const offset = custom.filter(item => item.topic === title && item.part === part).length;
+  const added = lines.map((q, i) => ({
+    id: 'custom-' + crypto.randomUUID(), q, topic: title, part, n: offset + i + 1,
+    group: '我的题库', source: '自定义'
+  }));
+  custom.push(...added);
+  all.push(...added);
+  topic = key(added[0]);
+  $('search').value = '';
+  $('modal').close();
+  event.target.reset();
+  $('import-status').textContent = '支持 TXT、Markdown 和可选中文字的 PDF。';
+  mode = 'reference';
+  renderMode();
+  select(added[0]);
+};
+renderQuestion();
+renderBank();
+renderMode();
+
+</script></body></html>
