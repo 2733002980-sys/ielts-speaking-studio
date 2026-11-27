@@ -5,6 +5,9 @@
 <meta name="description" content="按题库选题、整理答案和脱稿复练的雅思口语工作台。">
 <title>雅思口语练习台</title><style>:root{color-scheme:light;--bg:#f4f4fb;--ink:#201c35;--muted:#625d76;--line:#e6e2f0;--accent:#5a40b6;--soft:#eee9fc;--white:#fff}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,"Microsoft YaHei",sans-serif}button,input,select,textarea{font:inherit;color:inherit}button,input,select,textarea{border:1px solid var(--line);border-radius:11px;background:white;padding:.55rem .8rem}button{cursor:pointer;font-size:.88rem;font-weight:650}button:hover{border-color:var(--accent);color:var(--accent)}:focus-visible{outline:3px solid #a487fa;outline-offset:2px}button:disabled{opacity:.5;cursor:default}input,select,textarea{width:100%;min-width:0}textarea{resize:vertical}h1,h2,h3,p{margin:0}h2{font-size:1.05rem}h3{font-size:.95rem}header{background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem clamp(1rem,4vw,3.5rem)}.brand{display:flex;align-items:center;gap:.8rem}.brand strong{font-size:1.06rem}.brand small{display:block;letter-spacing:.12em;color:var(--muted);font-size:.7rem}.mark{display:grid;place-items:center;background:var(--accent);color:white;width:42px;height:42px;border-radius:13px;font-weight:bold}#save-status,.muted,#source{color:var(--muted);font-size:.88rem}.layout{max-width:1440px;margin:auto;padding:1.65rem clamp(.8rem,3.5vw,3rem);display:grid;grid-template-columns:290px minmax(0,1fr);gap:1.35rem}aside,.card{background:var(--white);border:1px solid var(--line);border-radius:18px}aside{padding:1rem;align-self:start;display:grid;gap:.7rem}.side-title,.row,.hero-top,.hero-bottom{display:flex;align-items:center;justify-content:space-between;gap:.6rem}.side-title span{color:var(--muted);font-size:.84rem}#parts,.tabs{display:flex;gap:.35rem}#parts button{flex:1;padding:.35rem .25rem}button[aria-pressed=true]{background:var(--soft);color:#4a319f;border-color:#d7caf7}#questions{display:grid;align-content:start;gap:.3rem;max-height:52vh;overflow:auto;padding:3px}#questions button{text-align:left;font-weight:500;line-height:1.4;overflow-wrap:anywhere}.add{color:var(--accent);border-style:dashed}.hero{background:radial-gradient(ellipse at top right,#6648a4 0,transparent 56%),#2e204d;color:#fff;border-radius:20px;padding:1.25rem clamp(1rem,3vw,2rem);overflow-wrap:anywhere}.hero h1{font-size:clamp(1.55rem,3vw,2.38rem);line-height:1.2;margin:1rem 0 1.2rem;max-width:30ch;letter-spacing:-.022em}.hero ul{padding-left:1.15rem;color:#f1e9ff}.hero ul:empty{display:none}#meta,#source{color:#e6d9fa;font-size:.82rem}.listen{background:#ffffff14;border-color:#ffffff53;color:white;flex-shrink:0}.listen:hover{background:white}.workspace{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:1.15rem;margin-top:1.15rem;align-items:start}.tabs{padding:.7rem;border-bottom:1px solid var(--line);flex-wrap:wrap}.tabs button{border-color:transparent}.pad{padding:1.15rem}.pad p,.pad textarea,.pad .timer{margin:.55rem 0 .9rem}#answer{font-size:1.04rem;line-height:1.75;white-space:pre-line}.primary{background:var(--accent);color:white;border-color:var(--accent)}.primary:hover{background:#4b329e;color:white}.phrase{padding:.7rem 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.phrase strong{color:#513399}.phrase small,.phrase em{display:block}.phrase em{font-size:.9rem;color:var(--muted)}.coach{margin-top:1rem;background:#f8f6fe;border-radius:12px;padding:.8rem}.timer{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}output{font-size:1.7rem;font-variant-numeric:tabular-nums;margin-right:.4rem}dialog{width:min(570px,calc(100% - 2rem));border:1px solid var(--line);border-radius:18px;padding:1.25rem;color:var(--ink)}dialog::backdrop{background:#221a3a99}dialog form{display:grid;gap:.55rem}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}[hidden]{display:none!important}@media(max-width:900px){.workspace{grid-template-columns:1fr}}@media(max-width:650px){.layout{grid-template-columns:1fr;padding-top:.85rem}#questions{max-height:185px}header #save-status{text-align:right;font-size:.75rem}}
+
+.personal{margin-top:1rem;padding:1rem;background:#f8f6fe;border:1px solid var(--line);border-radius:14px}
+.personal h3{margin-bottom:.3rem}.personal label{display:block}.personal textarea{margin:.5rem 0}.personal details{margin-top:.8rem}.personal summary{cursor:pointer;color:var(--accent);font-weight:650}.personal #personal-status{margin:.3rem 0 0}
 </style>
 
 </head>
@@ -33,6 +36,19 @@
 <div class="row"><h2>参考回答</h2><button id="listen-answer">朗读回答</button></div>
 <p id="answer" lang="en"></p><p id="reference-note" class="muted"></p>
 <button id="use" class="primary">用作我的草稿</button>
+<section class="personal">
+<h3>我的真实信息</h3>
+<label for="personal-info" class="muted">写下想补充或替换的细节，中英文都可以。</label>
+<textarea id="personal-info" rows="3" placeholder="例如：我更喜欢拍街景，尤其是傍晚的光线。"></textarea>
+<button class="primary" id="rewrite" disabled>复制个性化改写请求</button>
+<details id="rewrite-result">
+<summary>贴回改写后的英文回答</summary>
+<textarea id="personal-answer" rows="4" aria-label="改写后的英文回答" placeholder="粘贴 ChatGPT 给你的新版英文回答。"></textarea>
+<button id="apply-answer">设为我的参考回答</button>
+<p id="personal-status" class="muted" role="status"></p>
+</details>
+</section>
+
 </div>
 <div class="pad" id="draft" hidden>
 <h2>我的回答</h2><p class="muted">可以先写中文要点，再整理成自己说得顺的英文。</p>
@@ -134,18 +150,31 @@ function renderMode() {
   })));
   for (const [id] of modes) $(id).hidden = mode !== id;
 }
+function currentAnswer() {
+  return record().personalAnswer || window.samples[current.id]?.[0] || '';
+}
+function renderAnswer() {
+  const answer = currentAnswer();
+  $('answer').textContent = answer;
+  $('listen-answer').hidden = !answer;
+  $('use').hidden = !answer;
+  if (record().personalAnswer) $('reference-note').textContent = '正在显示你保存的个性化参考回答。';
+}
 function renderQuestion() {
   const sample = window.samples[current.id];
   $('meta').textContent = 'Part ' + current.part + '  /  ' + (current.part === 3 ? '延伸讨论' : current.part === 2 ? '个人陈述' : current.topic);
   $('question').textContent = current.q;
   $('source').textContent = current.source + ' · ' + current.group;
   $('cue').replaceChildren(...(current.cue || []).map(line => element('li', line)));
-  $('answer').textContent = sample?.[0] || '';
   $('reference-note').textContent = sample
     ? (current.id === '3' ? '这个选专业的理由是示例，请按你的真实情况调整。' : '可以把其中的细节换成自己最想讲的。')
     : '这道题可以用右侧的按钮复制请求，到 ChatGPT 获取个性化参考回答和备选搭配。';
-  $('listen-answer').hidden = !sample;
-  $('use').hidden = !sample;
+  renderAnswer();
+  $('personal-info').value = record().personalInfo || '';
+  $('personal-answer').value = record().personalAnswer || '';
+  $('rewrite').disabled = !$('personal-info').value.trim();
+  $('rewrite-result').open = false;
+  $('personal-status').textContent = '';
   $('draft-text').value = record().draft || '';
   $('keywords').value = record().keywords ?? sample?.[1] ?? '';
   const phrases = $('phrases');
@@ -184,7 +213,11 @@ function speak(message) {
 }
 async function copy(mode) {
   const context = '我正在准备雅思口语。请用短句、自然的词和具体细节，适当使用容易说顺的从句。没有确认的个人经历请标为示例。';
-  const task = mode === 'polish'
+  const task = mode === 'rewrite'
+    ? ['请根据我的真实信息，改写成一版适合这个 Part 的英文口语回答。优先用我给的细节，保留原回答里仍适用的内容，避免编造个人经历。回答后附三个备选搭配、复述关键词和一道追问。',
+      '我的真实信息：' + record().personalInfo,
+      currentAnswer() ? '当前参考回答：' + currentAnswer() : '请直接根据题目和我的真实信息起草。'].join('\n')
+    : mode === 'polish'
     ? '请按雅思口语润色下面的草稿，保留我的意思，简述一两处改动，再给复述关键词和一道追问。\n我的草稿：' + $('draft-text').value
     : '请给一版适合该 Part 的英文口语参考回答、三个备选搭配（中文意思和短例句）、复述关键词和一道追问。';
   const prompt = [context, 'Part ' + current.part + ' · ' + current.q, ...(current.cue || []), task].join('\n');
@@ -213,13 +246,13 @@ $('search').oninput = () => { topic = ''; select(visible()[0]); };
 $('topic').onchange = () => { topic = $('topic').value; select(visible()[0]); };
 $('next').onclick = () => { const items = visible(); select(items[items.indexOf(current) + 1]); };
 $('listen').onclick = () => speak([current.q, ...(current.cue || [])].join('. '));
-$('listen-answer').onclick = () => speak(window.samples[current.id]?.[0] || '');
+$('listen-answer').onclick = () => speak(currentAnswer());
 $('use').onclick = () => {
   mode = 'draft';
   renderMode();
   const field = $('draft-text');
   if (!field.value.trim()) {
-    field.value = window.samples[current.id][0];
+    field.value = currentAnswer();
     record().draft = field.value;
     save();
   }
@@ -228,6 +261,24 @@ $('use').onclick = () => {
 $('draft-text').oninput = event => { record().draft = event.target.value; save(); };
 $('keywords').oninput = event => { record().keywords = event.target.value; save(); };
 $('coach').onclick = () => copy('answer');
+$('personal-info').oninput = event => {
+  record().personalInfo = event.target.value;
+  $('rewrite').disabled = !event.target.value.trim();
+  save();
+};
+$('rewrite').onclick = () => copy('rewrite');
+$('apply-answer').onclick = () => {
+  const answer = $('personal-answer').value.trim();
+  if (!answer) {
+    $('personal-status').textContent = '请先粘贴改写后的英文回答。';
+    return;
+  }
+  record().personalAnswer = answer;
+  renderAnswer();
+  save();
+  $('personal-status').textContent = '已更新上方的参考回答。';
+};
+
 $('polish').onclick = () => copy('polish');
 $('copy-close').onclick = () => $('copy-modal').close();
 $('clock').onclick = () => {
